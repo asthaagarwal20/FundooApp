@@ -8,28 +8,39 @@ export const getAllUsers = async () => {
 export const login = async (body) => {
   const data = await User.findOne({ email: body.email });
   if (data == null) {
-    throw new Error("User does not exist");
+    throw new Error('User does not exist');
   }
   else {
     const result = await bcrypt.compare(body.password, data.password);
     if (result == true) {
-      var token = jwt.sign({ "firstname": data.firstname,"id":data._id,"email":data.email },process.env.SECRET_KEY);
+      var token = jwt.sign(
+        { firstname: data.firstname, id: data._id, email: data.email },
+        process.env.SECRET_KEY
+      );
       return token;
     }
     else {
-      throw new Error("incorrect password");
+      throw new Error('incorrect password');
     }
   }
 };
 
 //create new user
 export const newUser = async (body) => {
+
+  const data1 = await User.findOne({ email: body.email });
+  if(data1==null){
   const saltRounds = 10;
   const salt = await bcrypt.genSalt(saltRounds);
   const hashPassword = await bcrypt.hash(body.password, salt);
   body.password = hashPassword;
   const data = await User.create(body);
   return data;
+  }
+  else{
+    throw new Error('User already registered');
+  }
+ 
 };
 
 //update single user
