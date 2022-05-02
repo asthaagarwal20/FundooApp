@@ -1,25 +1,24 @@
 import User from '../models/user.model';
 import bcrypt from 'bcrypt';
-//get all users
+import jwt from 'jsonwebtoken';
 export const getAllUsers = async () => {
   const data = await User.find();
   return data;
 };
 export const login = async (body) => {
   const data = await User.findOne({ email: body.email });
-  if (data==null) {
+  if (data == null) {
     throw new Error("User does not exist");
   }
   else {
     const result = await bcrypt.compare(body.password, data.password);
-    console.log("the result is here",result);
     if (result == true) {
-      return data;
+      var token = jwt.sign({ "firstname": data.firstname,"id":data._id,"email":data.email },process.env.SECRET_KEY);
+      return token;
     }
     else {
       throw new Error("incorrect password");
     }
-    // result == true
   }
 };
 
