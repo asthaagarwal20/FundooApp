@@ -9,4 +9,6 @@ router.get('', userAuth, notecontroller.getAllNote);
 router.get('/:noteid', userAuth, notecontroller.getNote);
 router.put('/:noteid', userAuth, notecontroller.updateNote);
 router.delete('/:noteid', userAuth, notecontroller.deleteNote);
+router.put('/archieve/:noteid', userAuth, notecontroller.archieveNote);
+
 export default router;

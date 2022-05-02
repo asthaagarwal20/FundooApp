@@ -18,9 +18,9 @@ export const getNote = async (id) => {
   return data;
 };
 export const updateNote = async (_id, body) => {
-  console.log("id is "+ _id);
-  const data = await Note.findByIdAndUpdate( _id,body,{new:true});
-  console.log("data is"+data);
+  console.log('id is ' + _id);
+  const data = await Note.findByIdAndUpdate(_id, body, { new: true });
+  console.log('data is' + data);
   return data;
 };
 
@@ -28,3 +28,22 @@ export const deleteNote = async (_id) => {
   await Note.findByIdAndDelete(_id);
   return '';
 };
+
+export const archieveNote = async (id) => {
+  const temp = await Note.findById(id);
+  if (temp == null) {
+    throw new Error('Note does not exist');
+  }
+    temp.isArchieve = true;
+  const data = await Note.findByIdAndUpdate(
+    {
+      _id: id
+    },
+    temp,
+    {
+      new: true
+    }
+  );
+  return data;
+};
+
