@@ -47,3 +47,20 @@ export const archieveNote = async (id) => {
   return data;
 };
 
+export const trashNote = async (id) => {
+  const temp = await Note.findById(id);
+  if (temp == null) {
+    throw new Error('Note does not exist');
+  }
+    temp.isDeleted = true;
+  const data = await Note.findByIdAndUpdate(
+    {
+      _id: id
+    },
+    temp,
+    {
+      new: true
+    }
+  );
+  return data;
+};

@@ -10,5 +10,5 @@ router.get('/:noteid', userAuth, notecontroller.getNote);
 router.put('/:noteid', userAuth, notecontroller.updateNote);
 router.delete('/:noteid', userAuth, notecontroller.deleteNote);
 router.put('/archieve/:noteid', userAuth, notecontroller.archieveNote);
-
+router.put('/trash/:noteid', userAuth, notecontroller.trashNote);
 export default router;

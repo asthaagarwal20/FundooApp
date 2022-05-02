@@ -84,3 +84,15 @@ export const archieveNote = async (req, res, next) => {
   }
 };
 
+export const trashNote = async (req, res, next) => {
+  try {
+    const data = await NoteService.trashNote(req.params.noteid);
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: data,
+      message: 'Added in trash successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
