@@ -46,17 +46,16 @@ export const getUser = async (req, res, next) => {
  * @param {Function} next
  */
 export const newUserRegistration = async (req, res, next) => {
-    try {
-      const data = await UserService.newUser(req.body);
-      res.status(HttpStatus.CREATED).json({
-        code: HttpStatus.CREATED,
-        data: data,
-        message: 'User created successfully'
-      });
-    } catch (error) {
-      console.log("ahcaslcasklc");
-      next(error);
-    } 
+  try {
+    const data = await UserService.newUser(req.body);
+    res.status(HttpStatus.CREATED).json({
+      code: HttpStatus.CREATED,
+      data: data,
+      message: 'User created successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 export const login = async (req, res, next) => {
   try {
@@ -70,6 +69,20 @@ export const login = async (req, res, next) => {
     next(error);
   }
 };
+
+export const forgotpassword = async (req, res, next) => {
+  try {
+    const data = await UserService.forgotpassword(req.body);
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: data,
+      message: 'reset password link sent successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 /**
  * Controller to update a user
  * @param  {object} req - request object

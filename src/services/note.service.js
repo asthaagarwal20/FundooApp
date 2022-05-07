@@ -3,8 +3,8 @@ export const addNote = async (body) => {
   const data = await Note.create(body);
   return data;
 };
-export const getAllNote = async () => {
-  const data = await Note.find();
+export const getAllNote = async (userid) => {
+  const data = await Note.find(userid);
   if (data == null) {
     throw new Error('no notes for the user');
   } else return data;
@@ -17,9 +17,18 @@ export const getNote = async (id) => {
   }
   return data;
 };
-export const updateNote = async (_id, body) => {
-  console.log('id is ' + _id);
-  const data = await Note.findByIdAndUpdate(_id, body, { new: true });
+export const updateNote = async (id, body) => {
+  console.log('id is ' + id);
+  const data = await Note.findByIdAndUpdate(
+    {
+      _id: id,
+      userid: body.userid
+    },
+    body,
+    {
+      new: true
+    }
+  );
   console.log('data is' + data);
   return data;
 };
@@ -34,7 +43,7 @@ export const archieveNote = async (id) => {
   if (temp == null) {
     throw new Error('Note does not exist');
   }
-    temp.isArchieve = true;
+  temp.isArchieve = true;
   const data = await Note.findByIdAndUpdate(
     {
       _id: id
@@ -52,7 +61,7 @@ export const trashNote = async (id) => {
   if (temp == null) {
     throw new Error('Note does not exist');
   }
-    temp.isDeleted = true;
+  temp.isDeleted = true;
   const data = await Note.findByIdAndUpdate(
     {
       _id: id
