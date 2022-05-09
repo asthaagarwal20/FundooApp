@@ -78,3 +78,19 @@ export const forgotpassword = async (body) => {
     throw new Error('email does not matched');
   }
 };
+
+export const resetpassword = async (body) => {
+  console.log("body is" ,body);
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  const hashPassword = await bcrypt.hash(body.password, salt);
+  //console.log(hashpassword);
+  body.password = hashPassword;
+  const data = await User.findOneAndUpdate(
+    { email: body.email },
+    { password: hashPassword }
+  );
+  console.log("data is " ,data);
+  return data;
+};
+ 
