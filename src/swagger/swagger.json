@@ -69,7 +69,7 @@
              ],
              "responses": {
                  "201": {
-                     "description": "New user is created"
+                     "description": "New user is created successfully"
                  },
                  "500": {
                      "description": "Internal server error"
