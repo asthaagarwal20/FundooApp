@@ -42,7 +42,7 @@ describe('User APIs Test', () => {
           done();
         });
     });
-    it('given when user enter invalid details return', (done) => {
+    it('given when user enter invalid details return 500', (done) => {
       const userdetails = {
         firstname: 'Ritu',
         lastname: 'Singh',
@@ -51,6 +51,35 @@ describe('User APIs Test', () => {
       };
       request(app)
         .post('/api/v1/users/register')
+        .send(userdetails)
+        .end((err, res) => {
+          expect(res.statusCode).to.be.equal(HttpStatus.BAD_REQUEST);
+          done();
+        });
+    });
+  });
+
+  describe('POST/login', () => {
+    it('given new user when added should return status 200', (done) => {
+      const userdetails = {
+        email: 'nadab48562@3dmasti.com',
+        password: '12345'
+      };
+      request(app)
+        .post('/api/v1/users/login')
+        .send(userdetails)
+        .end((err, res) => {
+          expect(res.statusCode).to.be.equal(HttpStatus.OK);
+          done();
+        });
+    });
+    it('given when user enter invalid details return 500', (done) => {
+      const userdetails = {
+        email: 'nadab48562@3dmasti.com',
+        password: '1235'
+      };
+      request(app)
+        .post('/api/v1/users/login')
         .send(userdetails)
         .end((err, res) => {
           expect(res.statusCode).to.be.equal(HttpStatus.BAD_REQUEST);

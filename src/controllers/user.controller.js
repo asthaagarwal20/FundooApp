@@ -69,10 +69,12 @@ export const login = async (req, res, next) => {
       message: 'login successful'
     });
   } catch (error) {
-    next(error);
-  }
+    res.status(HttpStatus.BAD_REQUEST).json({
+      code: HttpStatus.BAD_REQUEST,
+      message: `${error}`
+  });
 };
-
+};
 export const forgotpassword = async (req, res, next) => {
   try {
     const data = await UserService.forgotpassword(req.body);
