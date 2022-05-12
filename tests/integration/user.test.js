@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import mongoose from 'mongoose';
-
+import HttpStatus from 'http-status-codes';
 import app from '../../src/index';
 
 describe('User APIs Test', () => {
@@ -26,14 +26,34 @@ describe('User APIs Test', () => {
     done();
   });
 
-  describe('GET /users', () => {
-    it('should return empty array', (done) => {
+  describe('POST/registration', () => {
+    it('given new user when added should return status 201', (done) => {
+      const userdetails = {
+        firstname: 'Ritu',
+        lastname: 'Singh',
+        email: 'nadab48562@3dmasti.com',
+        password: '12345'
+      };
       request(app)
-        .get('/api/v1/users')
+        .post('/api/v1/users/register')
+        .send(userdetails)
         .end((err, res) => {
-          expect(res.statusCode).to.be.equal(200);
-          expect(res.body.data).to.be.an('array');
-
+          expect(res.statusCode).to.be.equal(HttpStatus.CREATED);
+          done();
+        });
+    });
+    it('given when user enter invalid details return', (done) => {
+      const userdetails = {
+        firstname: 'Ritu',
+        lastname: 'Singh',
+        email: 'nadab48562@3dmasti.com',
+        password: '12345'
+      };
+      request(app)
+        .post('/api/v1/users/register')
+        .send(userdetails)
+        .end((err, res) => {
+          expect(res.statusCode).to.be.equal(HttpStatus.BAD_REQUEST);
           done();
         });
     });
