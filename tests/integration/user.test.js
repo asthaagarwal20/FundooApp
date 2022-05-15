@@ -5,7 +5,7 @@ import HttpStatus from 'http-status-codes';
 import app from '../../src/index';
 let loginToken;
 let resetToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyN2NlZTAwMTliZjMxNjQzMGFlNjlmMCIsImVtYWlsIjoiZGlub2xhbDExMEBjdXBiZXN0LmNvbSIsImlhdCI6MTY1MjQ5NjMwOH0.Jn_z2d1zAVqm_hNqqzmpvWpAD1UPUuGEuWJudidNpkI";
-
+let noteid="6280b6dd88b52c83fc157b4e";
 describe('User APIs Test', () => {
   before((done) => {
     const clearCollections = () => {
@@ -116,6 +116,38 @@ describe('User APIs Test', () => {
         .send(userdetails)
         .set('token',`${resetToken}`)
         .end((err, res) => {
+          expect(res.statusCode).to.be.equal(HttpStatus.OK);
+          done();
+        });
+    });
+  });
+  describe('POST/note', () => {
+    it('new note ', (done) => {
+      const notedetail={
+        title:"new note",
+        description:"this is demo note"
+      };
+      request(app)
+        .post('/api/v1/note')
+        .send(notedetail)
+        .set('token', `${loginToken}`)
+        .end((err,res)=>{
+          expect(res.statusCode).to.be.equal(HttpStatus.OK);
+          done();
+        });
+    });
+  });
+  describe('PUT/note', () => {
+    it('update note ', (done) => {
+      const notedetail={
+        title:"new note updated",
+        description:"this is updated note"
+      };
+      request(app)
+        .put(`/api/v1/note/${noteid}`)
+        .send(notedetail)
+        .set('token', `${loginToken}`)
+        .end((err,res)=>{
           expect(res.statusCode).to.be.equal(HttpStatus.OK);
           done();
         });
