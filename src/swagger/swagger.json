@@ -102,9 +102,207 @@
                     "description": "Internal server error"
                 }
             }
+         }
+       },
+    "/users/resetpassword": {
+        "post": {
+            "tags": ["users"],
+            "description": "reset link to update password",
+            "parameters": [
+                {
+                   "name": "resetpassword",
+                    "in": "body",
+                    "description": "resetpassword",
+                    "schema": {
+                        "$ref": "#/definitions/resetpassword"
+                    }
+                }
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "responses": {
+                "201": {
+                    "description": "password is updated successfully"
+                },
+                "500": {
+                    "description": "Internal server error"
+                }
+            },
+            "security": [
+                {
+                    "JWT": []
+                }
+            ]
+        }
+    },
+    "/note": {
+        "post": {
+            "tags": ["notes"],
+            "description": "create new note here",
+            "parameters": [
+                {
+                    "name": "new notes",
+                    "in": "body",
+                    "description": "new notes",
+                    "schema": {
+                        "$ref": "#/definitions/newnote"
+                    }
+                }
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "responses": {
+                "201": {
+                    "description": "New Note is created"
+                },
+                "500": {
+                    "description": "Internal server error"
+                }
+            },
+            "security": [
+                {
+                    "JWT": []
+                }
+            ]
+        },
+        "get": {
+            "tags": ["notes"],
+            "description": "Retrive all Notes of a particular user",
+            "parameters": [
+                {
+                    "name": "Retrive All notes",
+                    "description": "All notes",
+                    "required": false
+                }
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "responses": {
+                "201": {
+                    "description": "All notes are retrived"
+                },
+                "500": {
+                    "description": "Internal server error"
+                }
+            },
+            "security": [
+                {
+                    "JWT": []
+                }
+            ]
+        }
+    },
+    "/note/{noteid}": {
+        "get": {
+            "tags": ["notes"],
+            "description": "Retrive a particluar  Note of a  user",
+            "parameters": [
+                {
+                    "name": "noteid",
+                    "in": "path",
+                    "description": "Particular notes",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "responses": {
+                "201": {
+                    "description": "Particular note is retrived"
+                },
+                "500": {
+                    "description": "Internal server error"
+                }
+            },
+            "security": [
+                {
+                    "JWT": []
+                }
+            ]
+        },
+        "put": {
+            "tags": ["notes"],
+            "description": "Update a particluar  Note of a  user",
+            "parameters": [
+                {
+                    "name": "noteid",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "Update a Particular notes",
+                    "in": "body",
+                    "description": "Update a Particular  notes",
+                    "schema": {
+                        "$ref": "#/definitions/updatenote"
+                    }
+                }
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "responses": {
+                "201": {
+                    "description": "Particular note is updated"
+                },
+                "500": {
+                    "description": "Internal server error"
+                }
+            },
+            "security": [
+                {
+                    "JWT": []
+                }
+            ]
+        },
+        "delete": {
+            "tags": ["notes"],
+            "description": "Delete a particluar  Note of a  user",
+            "parameters": [
+                {
+                    "name": "noteid",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "Delete a Particular notes",
+                    "in": "body",
+                    "description": "Delete a Particular  notes"
+                }
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "responses": {
+                "201": {
+                    "description": "Particular note is updated"
+                },
+                "500": {
+                    "description": "Internal server error"
+                }
+            },
+            "security": [
+                {
+                    "JWT": []
+                }
+            ]
         }
     }
  },
+ "securityDefinitions": {
+    "JWT": {
+        "type": "apiKey",
+        "name": "token",
+        "in": "header"
+    }
+},
  "definitions": {
      "User": {
          "type": "object",
@@ -139,7 +337,55 @@
                       "type": "string"
                   } 
               }
-      }
+      },
+      "resetpassword":{
+        "type": "object",
+              "properties": {
+                  "password": {
+                      "type": "string"
+                  } 
+              }
+      },
+      "newnote": {
+        "type": "object",
+        "properties": {
+            "title": {
+                "type": "string"
+            },
+            "description": {
+                "type": "string"
+            },
+            "color": {
+                "type": "string"
+            },
+            "isArchieved": {
+                "type": "boolean"
+            },
+            "isDeleted": {
+                "type": "boolean"
+            }
+        }
+    },
+    "updatenote": {
+        "type": "object",
+        "properties": {
+            "title": {
+                "type": "string"
+            },
+            "description": {
+                "type": "string"
+            },
+            "color": {
+                "type": "string"
+            },
+            "isArchieved": {
+                "type": "boolean"
+            },
+            "isDeleted": {
+                "type": "boolean"
+            }
+        }
+    }
  }
 }
 
