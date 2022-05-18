@@ -1,13 +1,14 @@
 import Note from '../models/note.model';
+import {client} from '../config/radis';
+
 export const addNote = async (body) => {
   const data = await Note.create(body);
   return data;
 };
 export const getAllNote = async (userid) => {
   const data = await Note.find(userid);
-  if (data == null) {
-    throw new Error('no notes for the user');
-  } else return data;
+  await client.set('getnotes',JSON.stringify(data));
+  return data;
 };
 export const getNote = async (id) => {
   console.log('retriving particualr note: ', id);
