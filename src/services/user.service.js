@@ -2,6 +2,7 @@ import User from '../models/user.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { mailSend } from '../utils/helper';
+import {publisher} from '../config/rabbitMq';
 export const getAllUsers = async () => {
   const data = await User.find();
   return data;
@@ -33,6 +34,7 @@ export const newUser = async (body) => {
     const hashPassword = await bcrypt.hash(body.password, salt);
     body.password = hashPassword;
     const data = await User.create(body);
+    publisher(data);
     return data;
   } else {
     throw new Error('User already registered');
