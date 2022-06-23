@@ -9,11 +9,11 @@ export const getAllUsers = async () => {
 };
 export const login = async (body) => {
   const data = await User.findOne({ email: body.email });
-  if (data == null) {
+  if (data === null) {
     throw new Error('User does not exist');
   } else {
     const result = await bcrypt.compare(body.password, data.password);
-    if (result == true) {
+    if (result === true) {
       var token = jwt.sign(
         { firstname: data.firstname, id: data._id, email: data.email },
         process.env.SECRET_KEY

@@ -40,7 +40,7 @@ export const mail= async (email)=> {
     await transporter.sendMail({
     from: process.env.SENDER_EMAIL, // sender address
     to: email, // list of receivers
-    subject: "Rabbitmq ", // Subject line
+    subject: "Rabbitmq 2", // Subject line
     html:  `<h1>Hello,<br><br>User Registration successful!</h1>`
   });
 }
